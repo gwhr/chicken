@@ -1,15 +1,15 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <!-- <h1>{{ msg }}asdas{{$t('main.logo')}}</h1> -->
     <h2>Essential Links</h2>
+    <div>
+      222222222222222222
+      <BaseHeader> </BaseHeader>
+    </div>
     <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
+      <li @click="change">
+        
           Core Docs
-        </a>
       </li>
       <li>
         <a
@@ -89,6 +89,11 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods:{
+    change(){
+       this.$i18n.locale = 'en'
     }
   }
 }

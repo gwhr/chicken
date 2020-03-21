@@ -1,0 +1,121 @@
+{
+  "id": "1681535",
+  "name": "chicken",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "chicken-10k",
+  "glyphs": [
+    {
+      "icon_id": "4948953",
+      "name": "放大镜",
+      "font_class": "fangdajing",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "8574987",
+      "name": "支付宝",
+      "font_class": "zhifubao",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "9960914",
+      "name": "iconfont图标_钻石",
+      "font_class": "iconfonttubiao_zuanshi",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "10262050",
+      "name": "设 置",
+      "font_class": "shezhi",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "1330569",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e73b",
+      "unicode_decimal": 59195
+    },
+    {
+      "icon_id": "1527840",
+      "name": "金币",
+      "font_class": "jinbi",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "2742654",
+      "name": "钱袋子",
+      "font_class": "qiandaizi",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "3977274",
+      "name": "预约人数",
+      "font_class": "weibiaoti-_huabanfuben",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "6671138",
+      "name": "记录",
+      "font_class": "jilu",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "8300831",
+      "name": "实名验证",
+      "font_class": "shimingyanzheng",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "689262",
+      "name": "类目 品类 分类 类别",
+      "font_class": "leimupinleifenleileibie",
+      "unicode": "e7f9",
+      "unicode_decimal": 59385
+    },
+    {
+      "icon_id": "2681697",
+      "name": "秒杀",
+      "font_class": "miaosha",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "9540065",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "99516",
+      "name": "喇叭",
+      "font_class": "weibiaoti1",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "2567865",
+      "name": "返回",
+      "font_class": "fanhui1",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "908504",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    }
+  ]
+}

@@ -1,15 +1,153 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-06 10:06:24
+ * @LastEditTime: 2020-03-11 14:21:34
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \bolg_webd:\私活\鸡-10K\chicken\src\router\index.js
+ */
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
-
+const _import = require(`./prodev/_import_${process.env.NODE_ENV}`)
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      redirect:'/login'
+    },
+    {
+      path:'/register',
+      name:'register',
+      component:_import('register/register')
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:_import('login/login')
+    },{
+      path:'/seekword',
+      name:'seekword',
+      component:_import('login/seekword')
+    },
+    {
+      path:'/indexdetails',
+      name:'indexdetails',
+      component:_import('index/indexdetails')
+    },
+    {
+      path:'/bottom',
+      name:'bottom',
+      component:_import('bottom/bottom'),
+      children:[
+        {
+          path:'/index',
+          name:'index',
+          component:_import('index/index')
+        },
+        {
+          path:'/myInfo',
+          name:'myInfo',
+          component:_import('myInfo/myInfo')
+        },
+      ]
+    },{
+      path:'/appointmentrecord',
+      name:'appointment',
+      component:_import('record/appointmentrecord')
+    },{
+      path:'/panicbuying',
+      name:'panicbuying',
+      component:_import('record/panicbuying')
+    },{
+      path:'/transfer',
+      name:'transfer',
+      component:_import('record/transfer')
+    },{
+      path:'/myassets',
+      name:'myassets',
+      component:_import('myInfo/myassets')
+    },{
+      path:'/integraldetails',
+      name:'integraldetails',
+      component:_import('myInfo/integraldetails')
+    },
+    {
+      path:'/promotional',
+      name:'promotional',
+      component:_import('myInfo/promotional')
+    },
+    {
+      path:'/bird',
+      name:'bird',
+      component:_import('myInfo/bird')
+    },
+    {
+      path:'/share',
+      name:'share',
+      component:_import('myInfo/share')
+    },
+    {
+      path:'/realname',
+      name:'realname',
+      component:_import('myInfo/realname')
+    },
+    {
+      path:'/setting',
+      name:'setting',
+      component:_import('myInfo/setting')
+    },
+    {
+      path:'/exchangeprofit',
+      name:'exchangeprofit',
+      component:_import('myInfo/exchangeprofit')
+    },
+    {
+      path:'/changPassword',
+      name:'changPassword',
+      component:_import('myInfo/changPassword')
+    },
+    {
+      path:'/panicrule',
+      name:'panicrule',
+      component:_import('rules/panicrule')
+    },
+    {
+      path:'/alipay',
+      name:'alipay',
+      component:_import('myInfo/alipay')
+    },
+    {
+      path:'/bankCard',
+      name:'bankCard',
+      component:_import('myInfo/bankCard')
+    },
+    {
+      path:'/myteam',
+      name:'myteam',
+      component:_import('myInfo/myteam')
+    },
+    {
+      path:'/seekdirect',
+      name:'seekdirect',
+      component:_import('myInfo/seekdirect')
+    },
+    {
+      path:'/dynamicintroduce',
+      name:'dynamicintroduce',
+      component:_import('introduce/dynamicintroduce')
+    },
+    {
+      path:'/staticintroduce',
+      name:'staticintroduce',
+      component:_import('introduce/staticintroduce')
+    },
+    {
+      path:'/cardList',
+      name:'cardList',
+      component:_import('myInfo/cardList')
+    },
   ]
 })
