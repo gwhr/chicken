@@ -29,17 +29,17 @@ export default {
       selectPage:1,
         menyList:[
             {
-               name:'抢购区',
+               name:this.$t('info.Panicbuyingarea'),
                path:'/index', 
                id:1
             },
             {
-               name:'帮助中心',
+               name:this.$t('info.Helpcenter'),
                path:'/staticintroduce', 
                id:2
             },
             {
-               name:'我的',
+               name:this.$t('info.MY'),
                path:'/myInfo', 
                id:3
             },
@@ -56,12 +56,18 @@ export default {
     }
   },
   created() {
-
+    console.log(this.$route)
+    if(this.$route.path == '/myInfo'){
+        this.selectPage = 3
+    }else if(this.$route.path == '/index'){
+        this.selectPage = 1
+    }
   },
   mounted() {
 
   },
   components: {},
+
 }
 </script>
 

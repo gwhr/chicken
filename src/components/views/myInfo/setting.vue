@@ -6,23 +6,26 @@
       ></BaseHeader>
       <div class='settinglayout'>
           <div class="avator">
-              <img :src="timg2" alt="">
+              <!-- <img :src="timg2" alt=""> -->
           </div>
           <div class="register">
           <div class="registerForm">
               <ul>
-                  <li class="form_li">
-                      <input class="form-control" type="number" :placeholder="$t('login.username')" v-model="registers.username">
+                  <li class="form_li" style="color:#fff">
+                      <input readonly class="form-control"  :placeholder="$t('login.username')" v-model="userInfo.nickname">
                   </li>
                   <li class="form_li">
-                      <input class="form-control" type="number" :placeholder="$t('login.PhoneNumber')" v-model="registers.PhoneNumber">
+                      <input readonly class="form-control" type="number" :placeholder="$t('login.PhoneNumber')" v-model="userInfo.account">
                   </li>
-                  <li class="form_li">
+                  <!-- <li class="form_li">
                       <input class="form-control" type="number" :placeholder="$t('info.myinvitationcode')" v-model="registers.verificationCode">
                       <span class="getCode">{{$t('info.copymyinvitationcode')}}</span>
+                  </li> -->
+                  <li class="form_li" @click="tolink(1)">
+                      <van-button size="small" type="info">修改登錄密碼</van-button>
                   </li>
-                  <li class="form_li" @click="tolink">
-                      <input readonly class="form-control" :placeholder="$t('info.changPassword')" v-model="registers.PhoneNumber">
+                  <li class="form_li" @click="tolink(2)">
+                      <van-button size="small" type="info">修改交易密码</van-button>
                   </li>
               </ul>
               <div class="registerBtn" @click="register">
@@ -43,6 +46,7 @@ export default {
     return {
         timg2,
         name:this.$t('info.setting'),
+        userInfo:{},
         registers:{
             username:'',
             PhoneNumber:'',
@@ -57,9 +61,12 @@ export default {
   },
     methods: {
     // 修改交易密码
-    tolink(){
+    tolink(type){
         this.$router.push({
-            path:'/changPassword'
+            path:'/changePwd',
+            query:{
+                type
+            }
         })
     },
     //   注册
@@ -69,13 +76,24 @@ export default {
         this.$router.push({
             path:'/login'
         })
-    }
+    },
+    /* 
+        获取个人信息
+      */
+     memberInfo(){
+         this.globalApi.api.userinfo.memberInfo().then(value=>{
+              if(value.data.code == 1){
+                  this.userInfo = value.data.data.member;
+                  console.log(this.userInfo)
+              }
+          })
+     }
   },
   created() {
 
   },
   mounted() {
-
+      this.memberInfo();
   },
   components: {},
 }

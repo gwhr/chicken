@@ -10,21 +10,22 @@
   <div class="myinfo">
       <div class="myinfo_header">
           <div class="myinfo_avator">
-              <img :src="timg" alt="">
+              <!-- <img :src="timg" alt=""> -->
               <div class="myinfo_infos">
                   <div class="myinfo_status">
-                      <span>{{$t('info.unaudited')}}</span>
+                      <span>{{userInfo.nickname}}</span>
                   </div>
                   <span>ID/{{$t('info.phone')}}:{{userInfo.account}}</span>
+                  <!-- <div>邀請碼:{{userInfo.parent_mid}}</div> -->
               </div>
           </div>
-          <ul class="myinfo_record">
-              <li class="myinfo_recordlist" @click='toRecord("/appointmentrecord")'>
+          <ul class="myinfo_record" >
+              <!-- <li class="myinfo_recordlist" @click='toRecord("/appointmentrecord")'>
                   <span>
                       <i class='iconfont iconweibiaoti-_huabanfuben'></i>
                   </span>
                   <span>{{$t('info.appointment')}}</span>
-              </li>
+              </li> -->
               <li class="myinfo_recordlist" @click='toRecord("/panicbuying")'>
                   <span>
                       <i class='iconfont iconweibiaoti-_huabanfuben'></i>
@@ -35,17 +36,19 @@
                   <span>
                       <i class='iconfont iconweibiaoti-_huabanfuben'></i>
                   </span>
-                  <span>{{$t('info.Transfer')}}</span>
+                  <span>金幣記錄</span>
               </li>
           </ul>
       </div>
-      <ul class="myinfo_assets">
+      <ul class="myinfo_assets" style="height:80px;">
           <li  v-for = '(item,index) in  assets' :key = 'index' @click='toRecord(item.path)'>
               <div>
-                  <p class="myinfo_assets_number">{{item.value}}</p>
+                  <!-- <p class="myinfo_assets_number">{{item.value}}</p> -->
                   <span>{{item.name}}</span>
               </div>
           </li>
+          <li></li>
+          <li></li>
       </ul>
       <ul class="myinfo_assets">
           <li v-for = '(item,index) in  others' :key = 'index' @click='toRecord(item.path)'>
@@ -74,24 +77,24 @@ export default {
         userInfo:{},
         timg,
         assets:[
-            {
-                name:this.$t('info.chickenNumbers'),
-                path:'',
-                dataName:'',
-                value:''
-            },
+            // {
+            //     name:this.$t('info.chickenNumbers'),
+            //     path:'',
+            //     dataName:'',
+            //     value:''
+            // },
             {
                 name:this.$t('info.titalassets'),
                 path:'/myassets',
                 dataName:'',
                 value:''
             },
-            {
-                name:this.$t('info.integral'),
-                path:'/integraldetails',
-                dataName:'integral',
-                value:''
-            },
+            // {
+            //     name:this.$t('info.integral'),
+            //     path:'/integraldetails',
+            //     dataName:'integral',
+            //     value:''
+            // },
             {
                 name:this.$t('info.chickenprofit'),
                 path:'/bird',
@@ -101,15 +104,15 @@ export default {
             {
                 name:this.$t('info.extensionprofit'),
                 path:'/promotional',
-                dataName:'',
+                dataName:'recommend_income',
                 value:''
             },
-            {
-                name:this.$t('info.extensionchange'),
-                path:'/exchangeprofit',
-                dataName:'',
-                value:''
-            },
+            // {
+            //     name:this.$t('info.extensionchange'),
+            //     path:'/exchangeprofit',
+            //     dataName:'',
+            //     value:''
+            // },
         ],
         others:[
             {
@@ -122,7 +125,7 @@ export default {
             },
             {
                 name:this.$t('info.collectioninformation'),
-                path:'/bankCard'
+                path:'/cardList'
             },
             {
                 name:this.$t('info.myteam'),
@@ -146,7 +149,6 @@ export default {
       */
      memberInfo(){
          this.globalApi.api.userinfo.memberInfo().then(value=>{
-            console.log(value,'list')
               if(value.data.code == 1){
                   this.userInfo = value.data.data.member;
                   this.assets.forEach(v=>{
@@ -188,7 +190,9 @@ export default {
                 flex-direction: column;
                 justify-content: space-between;
                 padding:20px 0;
+                line-height: 1.5;
                 .myinfo_status{
+                    margin-bottom:20px;
                     span{
                         padding:5px 8px;
                         background:#60A1D9;
@@ -199,7 +203,7 @@ export default {
         }
         .myinfo_record{
             display:flex;
-            justify-content: space-between;
+            justify-content: space-around;
             .myinfo_recordlist{
                 width:32%;
                 background:#1B1E25;

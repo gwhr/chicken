@@ -28,6 +28,7 @@ export const login = {
     'Retrievepassword':'找回密码',
     'newpassword':'请输入新的登录密码',
     'confirm':'确认',
+    'nickname':'请输入昵称'
   }
   export const info = {
     'unaudited':'未审核',
@@ -110,5 +111,28 @@ export const login = {
     'revenue':'收益',
     "bannkList":'我的银行卡',
     'selectType':'请选择银行卡类型',
-    'Reservations':'可预约'
+    'Reservations':'可预约',
+    'addCard':'新增银行卡',
+    'editCard':'编辑',
+    "Panicbuyingarea":'抢购区',
+    'Helpcenter':'帮助中心',
+    'MY':'我的',
+    'reproduction':'繁殖中',
+    'Catch':'已捕捞',
+    'moneyNumber':'请输入充值金额',
+    'voucher':'上传充值凭证',
+    'Verifiedbyrealname':'已实名认证',
+    'inaudit':'审核中',
+    'catching':'捕捉中',
+    "topay":'去支付',
+    'orderDetails':"订单详情",
+    'orderNumber':'订单编号',
+    'goldCoin':'金币',
+    'selleraccount':'卖家账号',
+    'seller_nickname':'卖家名称',
+    'receivingaccount':'收款账号',
+    'revenueType':'收益类型',
+    'createtime':'交易时间',
+    'Recharge':'充值',
+    'teamAccount':'账号'
   }

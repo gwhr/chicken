@@ -5,17 +5,30 @@
         :name='name'
       ></BaseHeader>
       <!--  -->
-      <div >
+      <ul class="helplist">
+          <li v-for="(item ,index) in goodList" :key='index'  @click="toConcent(item)">
+              <p>
+                  標題:{{item.title}}
+              </p>
+              <p>
+                  關鍵字:{{item.keywords}}
+              </p>
+              <p>
+                  描述:{{item.desc}}
+              </p>
+          </li>
+      </ul>
+      <!-- <div >
           <img :src="statics" alt="">
       </div>
       <ul class="staticchicken_list">
-          <li v-for="(item,index) in 8" :key='index'>
+          <li v-for="(item,index) in goodList" :key='index'>
               <div>
-                  <img :src="img[index]" alt="">
+                  <img :src="item.thumb" alt="">
               </div>
               <div class="list_tags">
                   <p class="name">
-                      鳳凰
+                      {{item.catename}}
                   </p>
                   <div class="profit">
                         8天28%
@@ -26,7 +39,7 @@
                         </span>
                   </div>
                   <p class="value">
-                      價值100-300
+                      {{item.minprice}}-{{item.maxprice}}/只
                   </p>
               </div>
               
@@ -34,7 +47,8 @@
           <li style="background:none"></li>
           <li style="background:none"></li>
           <li style="background:none"></li>
-      </ul>
+      </ul> -->
+
   </div>
 </template>
 
@@ -53,17 +67,49 @@ export default {
     return {
         name:this.$t('info.staticplay'),
         statics,
-        img:[img1,img2,img3,img4,img5,img6,img7,img8]
+        img:[img1,img2,img3,img4,img5,img6,img7,img8],
+        goodList:[]
     };
   },
   methods: {
-
+      /* 
+        获取商品
+    */
+    indexList(){
+        this.globalApi.api.goods.indexList().then(value=>{
+            console.log(value,'list')
+              if(value.data.code == 1){
+                  this.goodList = value.data.data;
+              }
+          })
+    },
+    /* 
+        幫助中心
+    */
+   article(){
+        this.globalApi.api.helpCenter.article().then(value=>{
+            console.log(value,'list')
+              if(value.data.code == 1){
+                  this.goodList = value.data.data;
+              }
+          })
+    },
+    /* 
+        跳去內容
+    */
+   toConcent(item){
+       this.storeSession.save('content',item);
+       this.$router.push({
+           path:'/heplContent'
+       })
+   }
   },
   created() {
 
   },
   mounted() {
-
+    //   this.indexList();
+    this.article();
   },
   components: {},
 }
@@ -126,5 +172,14 @@ export default {
         }
     }
 }
-
+.helplist{
+    padding:20px;
+    li{
+        padding:10px;
+        color:#fff;
+        background:#102030;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+}
 </style>

@@ -5,19 +5,55 @@
         :name='name'
       ></BaseHeader>
       <!--  -->
-      <van-tabs v-model="active">
+      <!-- <van-tabs v-model="active">
         <van-tab v-for='(item,index) in recordList' :key='index' :title="item.name"></van-tab>
-      </van-tabs>
-      <div class="recorsList" v-if="recorsList.length">
-
+      </van-tabs> -->
+      <div class="recorsList" v-if="teamlist.length">
+          <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+              <ul class="myAssetsList">
+                <li v-for="(item,index) in teamlist" :key='index'>
+                    <div class="goodsInfo2">
+                            <p>
+                                {{$t('info.teamAccount')}}:{{item.account}}
+                            </p>
+                            <p>
+                                暱稱:{{item.nickname}}
+                            </p>
+                            <p>
+                                資產:{{item.now_money}}
+                            </p>
+                            <p>
+                                金幣:{{item.integral}}
+                            </p>
+                    </div>
+                    <div class="listBtn">
+                      <van-button round type="info" size="small" @click="tozz(item)">贈送積分</van-button>
+                    </div>
+                   
+                </li>
+            </ul>
+            </van-list>
+          </van-pull-refresh>
       </div>
-      <div class="recorsList recorsnoList" v-if="!recorsList.length">
+      <div class="recorsList recorsnoList" v-if="!teamlist.length">
           <p class="teamNumber">
               {{$t('info.totaoman')}}:
               <span>0</span>
           </p>
           {{$t('info.noData')}}
       </div>
+      <van-dialog v-model="show" title="" show-cancel-button @confirm="confirm">
+        <div style="padding: 10px;">
+                  <van-row>
+                    <van-col span="12">請輸入轉賬金額</van-col>
+                    <van-col span="10" offset="2">
+                        <input v-model="value" style='border:none;' type="number">
+                    </van-col>
+                  </van-row>
+        </div>
+        
+      </van-dialog>
   </div>
 </template>
 
@@ -25,27 +61,74 @@
 export default {
   data() {
     return {
+        show:false,
+        number:'',
+        loading: false,
+        finished: false,
+        isLoading: false,
         name:this.$t('info.myteam'),
         active:0,
-        recorsList:[],
+        mobile:'',
+        teamlist:[],
         recordList:[
           {
             name:this.$t('info.Directinferiors')
           },
-          {
-            name:this.$t('info.Inferiors')
-          }
-        ]
+        ],
+        value:0
     };
   },
   methods: {
-
+    onRefresh() {
+      this.isLoading = true;
+      this.myTeam().then(value => {
+        this.isLoading = false;
+      });
+    },
+    confirm(){
+      console.log(87)
+      this.givingIntegral();
+    },
+    onLoad() {
+      setTimeout(() => {
+        this.finished = true;
+      }, 1000);
+    },
+    /* 
+        我的团队
+      */
+     myTeam(){
+        return this.globalApi.api.userinfo.myTeam().then(value=>{
+            console.log(value,'list')
+              if(value.data.code == 1){
+                  this.teamlist = value.data.data.teamlist.data;
+              }
+          })
+     },
+     /* 
+        我的团队
+      */
+     givingIntegral(){
+     let params = {
+        integral:this.value,
+        mobile:this.mobile
+     }
+         this.globalApi.api.userinfo.givingIntegral(params).then(value=>{
+            console.log(value,'list')
+                  this.$toast.success(value.data.msg)
+          })
+     },
+     tozz(item){
+        this.show = true;
+        this.mobile = item.account;
+        
+     }
   },
   created() {
 
   },
   mounted() {
-
+    this.myTeam();
   },
   components: {},
 }

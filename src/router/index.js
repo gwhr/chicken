@@ -24,6 +24,11 @@ export default new Router({
       component:_import('register/register')
     },
     {
+      path:'/port/reg/index/mid/:id',
+      name:'register',
+      component:_import('register/register')
+    },
+    {
       path:'/login',
       name:'login',
       component:_import('login/login')
@@ -62,6 +67,10 @@ export default new Router({
       name:'panicbuying',
       component:_import('record/panicbuying')
     },{
+      path:'/listDetails',
+      name:'listDetails',
+      component:_import('record/listDetails')
+    },{
       path:'/transfer',
       name:'transfer',
       component:_import('record/transfer')
@@ -98,6 +107,11 @@ export default new Router({
       path:'/setting',
       name:'setting',
       component:_import('myInfo/setting')
+    },
+    {
+      path:'/changePwd',
+      name:'changePwd',
+      component:_import('myInfo/changePwd')
     },
     {
       path:'/exchangeprofit',
@@ -143,6 +157,11 @@ export default new Router({
       path:'/staticintroduce',
       name:'staticintroduce',
       component:_import('introduce/staticintroduce')
+    },
+    {
+      path:'/heplContent',
+      name:'heplContent',
+      component:_import('introduce/heplContent')
     },
     {
       path:'/cardList',

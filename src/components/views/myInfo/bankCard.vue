@@ -13,16 +13,17 @@
                       <van-action-sheet v-model="show" :title="$t('info.selectType')">
                         <van-picker  :columns="columns" @change="onChange" />
                       </van-action-sheet>
-                      
                   </li>
                   <li class="form_li">
-                      <input class="form-control"  :placeholder="$t('info.bankcard')" v-model="registers.bankcard">
+                      <input class="form-control" type="number" :placeholder="$t('login.verificationCode')" v-model="registers.verificationCode">
+                      <span class="getCode" v-if="codeFlag" @click="getCode">{{$t('login.verificationCodeGet')}}</span>
+                      <span class="getCode" v-if="!codeFlag">{{time}}</span>
                   </li>
                  <li class="form_li">
-                      <input class="form-control" type="number" :placeholder="$t('info.banknumber')" v-model="registers.banknumber">
+                      <input class="form-control" type="number" :placeholder="$t('info.banknumber')" v-model="registers.account">
                   </li>
                   <li class="form_li">
-                      <input class="form-control"  :placeholder="$t('info.bankname')" v-model="registers.bankname">
+                      <input class="form-control"  :placeholder="$t('info.bankname')" v-model="registers.titleofaccount">
                   </li>
               </ul>
               <div class="registerBtn" @click="register">
@@ -39,13 +40,18 @@ import shangchuan from '@/assets/image/shangchuan.png';
 export default {
   data() {
     return {
-        show:true,
+        show:false,
         columns: [],
         option1: [],
         shangchuan,
         name:this.$t('info.addbank'),
+        time:60,
+        codeFlag:true,
+        bankCardList:[],
         registers:{
+            titleofaccount:'',
             selectType:'',
+            typeId:'',
             bankcard:'',
             banknumber:'',
             bankname:''
@@ -74,28 +80,12 @@ export default {
     register(){
         // 进行校验
         for(let v in this.registers){
-            // if(v !='invitationCode'){
-            //     if(this.isNil(this.registers[v])){
-            //             // 校验为空
-            //             this.$dialog.alert({
-            //                 message: this.$t(`login.${v}`),
-            //             })
-            //             return
-            //     }
-            //     // 正则条件
-            //     switch(v){
-            //         // case 'PhoneNumber':
-            //         //     let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
-            //         //     if(!reg.test(this.registers[v])){
-            //         //         this.$dialog.alert({
-            //         //                 message: this.$t('login.currentphone'),
-            //         //             })
-            //         //         break
-            //         //     }
-            //     }     
-                
+            // if(!this.registers[v]){
+            //     alert('请填写完整信息');
+            //     return
             // }
         }
+        this.submitMethod();
          // 注册成功
         console.log('注册成功')
         this.$router.go(-1);
@@ -106,12 +96,65 @@ export default {
    getPaymentType(){
        this.globalApi.api.userinfo.getPaymentType().then(value=>{
               if(value.data.code == 1){
+                  this.bankCardList = value.data.data.typelist;
                   value.data.data.typelist.forEach(v=>{
                         this.columns.push(v.name)
                   })
               }
           })
-   }
+   },
+       // 获取验证码
+    getCode(){
+        this.codeFlag = false;
+        this.sms_reg()
+        var timer = setInterval(() => {
+                    this.time--;
+                    if (this.time === 0) {
+                        clearInterval(timer);
+                        this.codeFlag = true;
+                    }
+                }, 1000)
+    },
+    /*
+        获取验证码 
+     */
+    sms_reg(){
+        let params = {
+            mobile:this.registers.PhoneNumber,
+            temp:'sms_reg'
+        }
+        this.globalApi.api.userinfo.sms_reg(params).then(value=>{
+              if(value.data.code == 1){
+
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
+    },
+    /* 
+        添加银行卡
+    */
+   submitMethod(){
+        let params = {
+            type:this.registers.selectType ,
+            titleofaccount:this.registers.titleofaccount,
+            account:this.registers.account,
+            ispaymentcode:0,
+            verifycode:"22222222"
+        }
+        this.bankCardList.forEach(v=>{
+            if(v.name == params.type){
+                params.type = v.id;
+            }
+       })
+        this.globalApi.api.userinfo.submitMethod(params).then(value=>{
+              if(value.data.code == 1){
+                  this.$toast.success(value.data.msg)
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
+    },
   },
   created() {
 

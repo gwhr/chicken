@@ -6,7 +6,7 @@
       ></BaseHeader>
       <!--  -->
       <div class="register">
-          <div class="registerForm">
+          <div class="registerForm" v-if='userInfo.is_idverifly == 0'>
               <ul>
                   <li class="form_li">
                       <input class="form-control"  :placeholder="$t('info.entername')" v-model="registers.entername">
@@ -14,14 +14,15 @@
                  <li class="form_li">
                       <input class="form-control" type="number" :placeholder="$t('info.idnumber')" v-model="registers.idnumber">
                   </li>
-                  <li class="form_li">
-                      <input class="form-control" type="number" :placeholder="$t('login.PhoneNumber')" v-model="registers.PhoneNumber">
-                  </li>
               </ul>
               <div class="registerBtn" @click="register">
                   {{$t('info.submit')}}
               </div>
 
+          </div>
+          <div class="realNameStatus">
+              <span v-if='userInfo.is_idverifly == 1'>{{$t('info.Verifiedbyrealname')}}</span>
+              <span v-if='userInfo.is_idverifly == 2'>{{$t('info.inaudit')}}</span>
           </div>
       </div>
   </div>
@@ -32,10 +33,10 @@ export default {
   data() {
     return {
         name:this.$t('info.Realnameauthentication'),
+        userInfo:{},
         registers:{
             entername:'',
             idnumber:'',
-            PhoneNumber:''
         }
     };
   },
@@ -46,38 +47,53 @@ export default {
     register(){
         // 进行校验
         for(let v in this.registers){
-            if(v !='invitationCode'){
-                if(this.isNil(this.registers[v])){
-                        // 校验为空
-                        this.$dialog.alert({
-                            message: this.$t(`info.${v}`),
-                        })
-                        return
-                }
-                // 正则条件
-                switch(v){
-                    case 'PhoneNumber':
-                        let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
-                        if(!reg.test(this.registers[v])){
-                            this.$dialog.alert({
-                                    message: this.$t('login.currentphone'),
-                                })
-                            break
-                        }
-                }     
-                
-            }
+            if(this.isNil(this.registers[v])){
+                    // 校验为空
+                    // this.$dialog.alert({
+                    //     message: this.$t(`info.${v}`),
+                    // })
+                    this.$toast.fail(this.$t(`info.${v}`))
+                    return
+            } 
         }
-         // 注册成功
-        console.log('注册成功')
-        this.$router.go(-1);
-    }
+        
+        this.realname();
+    },
+    /* 
+        实名认证
+    */
+    realname(){
+        let params = {
+            realname:this.registers.entername,
+            idnum:this.registers.idnumber
+        }
+        this.globalApi.api.userinfo.realname(params).then(value=>{
+              if(value.data.code == 1){
+                  this.$toast.success(value.data.msg);
+                  this.$router.go(-1);
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
+    },
+    /* 
+        获取个人信息
+      */
+     memberInfo(){
+         this.globalApi.api.userinfo.memberInfo().then(value=>{
+            
+              if(value.data.code == 1){
+                  this.userInfo = value.data.data.member;
+                  console.log(this.userInfo,'list')
+              } 
+          })
+     }
   },
   created() {
 
   },
   mounted() {
-
+      this.memberInfo();
   },
   components: {},
 }
@@ -138,6 +154,10 @@ export default {
                 font-weight: 400;
                 line-height: 1.5;
                 text-align: center;
+        }
+        .realNameStatus{
+            color:#fff;
+            text-align:center;
         }
     }
 </style>

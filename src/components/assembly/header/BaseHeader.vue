@@ -12,6 +12,10 @@
       <span class="back" @click="toback" v-show='backShow'>
         <i class="iconfont iconfanhui"></i>
       </span>
+      <div class="operation">
+        <slot name="operation" ></slot>
+      </div>
+      
   </div>
 </template>
 
@@ -63,6 +67,14 @@ export default {
           left:0;
           top:0;
           padding-left:10px;
+        }
+        .operation{
+          color:#fff;
+          position: absolute;
+          right:0;
+          top:0;
+          width:auto;
+          padding-right:10px;
         }
     }
 </style>

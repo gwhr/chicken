@@ -47,8 +47,8 @@ export default {
         name:this.$t('login.login'),
         logo,
         loginInfo:{
-            username:'13800138000',
-            password:'123456'
+            username:'',//13800138000
+            password:''
         },
     };
   },
@@ -74,6 +74,8 @@ export default {
                   this.$router.push({
                       path:'/index'
                   })
+              }else{
+                  this.$toast.fail(value.data.msg)
               }
           })
         
@@ -90,7 +92,7 @@ export default {
       }
   },
   created() {
-
+      
   },
   mounted() {
 

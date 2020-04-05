@@ -31,16 +31,19 @@
                       <input class="form-control" type="password" :placeholder="$t('login.passwordAgain')" v-model="registers.passwordAgain">
                   </li>
                   <li class="form_li">
-                      <input class="form-control" type="password" :placeholder="$t('login.transactionPassword')" v-model="registers.transactionPassword">
+                      <input class="form-control" type="password" :placeholder="$t('login.transactionPassword')" v-model="registers.pwd2">
                   </li>
                   <li class="form_li">
-                      <input class="form-control" type="password" :placeholder="$t('login.transactionPasswordAgain')" v-model="registers.transactionPasswordAgain">
+                      <input class="form-control" type="password" :placeholder="$t('login.my')" v-model="registers.parent_mid">
                   </li>
-                  <li class="form_li">
+                  <!-- <li class="form_li">
                       <input class="form-control" type="number" :placeholder="$t('login.invitationCode')" v-model="registers.invitationCode">
+                  </li> -->
+                  <li class="form_li">
+                      <input class="form-control" :placeholder="$t('login.nickname')" v-model="registers.nickname">
                   </li>
               </ul>
-              <div class="registerBtn" @click="register">
+              <div class="registerBtn" @click="toConfirm">
                   {{$t('login.register')}}
               </div>
 
@@ -61,9 +64,12 @@ export default {
             verificationCode:'',
             password:'',
             passwordAgain:'',
-            transactionPassword:'',
-            transactionPasswordAgain:'',
-            invitationCode:''
+            nickname:'',
+            pwd2:'',
+            parent_mid:''
+            // transactionPassword:'',
+            // transactionPasswordAgain:'',
+            // invitationCode:''
         }
     };
   },
@@ -71,50 +77,65 @@ export default {
   watch: {},
   methods: {
     //   注册
-    register(){
+    toConfirm(){
         // 进行校验
-        for(let v in this.registers){
-            if(v !='invitationCode'){
-                if(this.isNil(this.registers[v])){
-                        // 校验为空
-                        this.$dialog.alert({
-                            message: this.$t(`login.${v}`),
-                        })
-                        return
-                }
-                // 正则条件
-                switch(v){
-                    // case 'phone':
-                    //     let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
-                    //     if(!reg.test(this.registers[v])){
-                    //         this.$dialog.alert({
-                    //                 message: this.$t('login.currentphone'),
-                    //             })
-                    //         break
-                    //     }
-                    case 'passwordAgain':
-                        if(this.registers[v] != this.registers['password']){
-                            this.$dialog.alert({
-                                    message: this.$t('login.inconsistent'),
-                                })
-                            break
-                        }
-                    case 'transactionPasswordAgain':
-                        if(this.registers[v] != this.registers['transactionPassword']){
-                            this.$dialog.alert({
-                                    message: this.$t('login.transactioninconsistent'),
-                                })
-                            break
-                        }
-                }     
+        // for(let v in this.registers){
+        //     if(v !='invitationCode' || v !="mid"){
+        //         // if(this.isNil(this.registers[v])){
+        //         //         // 校验为空
+                     
+        //         //         this.$toast.fail(this.$t(`login.${v}`))
+        //         //         return
+        //         // }
+        //         var reg = new RegExp("^[0-9]*$");
                 
+        //         // 正则条件
+        //         switch(v){
+        //             case 'passwordAgain':
+        //                 if(this.registers[v] != this.registers['password']){
+        //                     this.$dialog.alert({
+        //                             message: this.$t('login.inconsistent'),
+        //                         })
+        //                     break
+        //                 }
+                    
+        //         }     
+                
+        //     }
+        // }
+        var reg = new RegExp("^[0-9]*$");
+        if(!reg.test(this.registers.pwd2)){
+            this.$toast.fail('密碼只能為數字')
+            return
             }
-        }
+        this.register()
          // 注册成功
         console.log('注册成功')
-        this.$router.push({
-            path:'/login'
-        })
+        
+    },
+    /* 
+        注册
+    */
+    register(){
+        let params = {
+            account:this.registers.PhoneNumber,
+            verifycode:this.registers.verificationCode || 942190,
+            nickname:this.registers.nickname,
+            pwd:this.registers.password,
+            repwd:this.registers.passwordAgain,
+            pwd2:this.registers.pwd2,
+            repwd2:this.registers.pwd2,
+            mid:this.$route.params.id
+        }
+        this.globalApi.api.login.register(params).then(value=>{
+              if(value.data.code == 1){
+                  this.$router.push({
+                        path:'/login'
+                    })
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
     },
     // 获取验证码
     getCode(){
@@ -143,10 +164,18 @@ export default {
                   this.$toast.fail(value.data.msg)
               }
           })
+    },
+    /* 
+        獲取邀請碼
+    */
+    getCode(){
+        console.log(window.location.href,this.$route.params)
+        let url = window.location.href.split('/');
+        console.log(url.indexOf('mid'))
     }
   },
   created() {
-
+      this.getCode();
   },
   mounted() {
 

@@ -30,3 +30,40 @@
   /deep/ .van-tabs__nav{
       background:transparent;
   }
+
+//   列表样式
+.myAssetsList{
+    padding:20px;
+    li{
+        position: relative;
+        padding:10px;
+        background:#1B1F23;
+        color:#fff;
+        margin-bottom:20px;
+        .goodsInfo{
+            display:flex;
+            margin-bottom:10px;
+            img{
+                width:80px;
+                height:80px;
+                margin-right:20px;
+            }
+            .listInfo{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                text-align: left;
+            }
+        }
+        .goodsInfo2{
+            margin-bottom:10px;
+            p{
+                margin-bottom:10px;
+            }
+        }
+    }
+    
+}
+.van-pull-refresh{
+    overflow: auto;
+}

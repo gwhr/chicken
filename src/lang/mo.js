@@ -7,7 +7,7 @@
  * @FilePath: \bolg_webd:\私活\鸡-10K\chicken\src\lang\mo.js
  */
 export const login = {
-    'register': '注册',
+    'register': '註冊',
     'PhoneNumber': '請輸入手機號',
     'verificationCode': '請輸入驗證碼',
     'verificationCodeGet': '獲取驗證碼',
@@ -28,6 +28,8 @@ export const login = {
     'Retrievepassword':'找回密碼',
     'newpassword':'請輸入新的密碼',
     'confirm':'確定',
+    'nickname':'請輸入昵稱',
+    'my':'請輸入邀請碼',
   }
 export const info = {
   'unaudited':'未稽核',
@@ -38,7 +40,7 @@ export const info = {
   "chickenNumbers":'持有百鳥總數',
     'titalassets':'總資產',
     'integral':'積分',
-    'chickenprofit':'百鳥收益(元)',
+    'chickenprofit':'收益記錄(元)',
     'extensionprofit':'推廣收益',
     'extensionchange':'推廣收益兌換',
     'sharingrecommendation':'分享推薦',
@@ -110,5 +112,28 @@ export const info = {
     'revenue':'收益',
     "bannkList":'我的銀行卡',
     'selectType':'選擇銀行卡類型',
-    'Reservations':'可預約'
+    'Reservations':'可預約',
+    'addCard':'新增銀行卡',
+    'editCard':'編輯',
+    "Panicbuyingarea":'搶購區',
+    'Helpcenter':'幫助中心',
+    'MY':'我的',
+    'reproduction':'繁殖中',
+    'Catch':'已捕撈',
+    'moneyNumber':'請輸入充值金額',
+    'voucher':'上傳充值憑證',
+    'Verifiedbyrealname':'已實名認證',
+    'inaudit':'稽核中',
+    'catching':'捕捉中',
+    "topay":'去付款',
+    'orderDetails':"訂單詳情",
+    'orderNumber':'訂單編號',
+    'goldCoin':'金幣',
+    'selleraccount':'賣家帳號',
+    'seller_nickname':'賣家名稱',
+    'receivingaccount':'收款帳號',
+    'revenueType':'收益類型',
+    'createtime':'交易時間',
+    'Recharge':'充值',
+    'teamAccount':'帳號'
   }

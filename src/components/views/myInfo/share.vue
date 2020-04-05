@@ -13,43 +13,60 @@
           </p>
           <div class="sharelink">
               <div>
-                  <img class="erweima" :src="erweima" alt="">
+                  <img :class="qrcode" :src="qrcode" alt="">
               </div>
               <p class="shareweb">
-                  http://fanyi.youdao.com/
+                  {{inviteUrl}}
               </p>
               <p class="sharetips">
-                  <span>
+                  <span id="copy" :data-clipboard-text='inviteUrl' @click="newCopy">
                       {{$t('info.Copydownloadlink')}}
                   </span>
               </p>
           </div>
-          <div class="sharecopy">
+          <!-- <div class="sharecopy">
               <p>
-                  {{$t('info.sharecode')}}:ABCDEFG({{$t('info.replication')}})
+                  {{$t('info.sharecode')}}:({{$t('info.replication')}})
               </p>
-          </div>
+          </div> -->
       </div>
   </div>
 </template>
 
 <script>
 import erweima from '@/assets/image/erweima.png'
+import clipboard from 'clipboard'
 export default {
   data() {
     return {
         name:this.$t('info.Sharingrecommendation'),
-        erweima
+        erweima,
+        qrcode:'',
+        inviteUrl:''
     };
   },
   methods: {
-
+      /* 
+        分享
+      */
+     inviteFriends(){
+         this.globalApi.api.userinfo.inviteFriends().then(value=>{
+            console.log(value,'list')
+              if(value.data.code == 1){
+                 this.qrcode = value.data.data.inviteQrCode;
+                 this.inviteUrl = value.data.data.inviteUrl;
+              }
+          })
+     },
+     newCopy(){
+         new clipboard('#copy')
+     }
   },
   created() {
 
   },
   mounted() {
-
+      this.inviteFriends();
   },
   components: {},
 }

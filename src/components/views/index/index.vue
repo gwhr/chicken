@@ -17,14 +17,8 @@
       <div >
           <div class="swiper-container index_swiper" >
             <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img :src="timg" alt="" class="swiper_img">
-                    </div>
-                    <div class="swiper-slide">
-                        <img :src="timg2" alt="" class="swiper_img">
-                    </div>
-                    <div class="swiper-slide">
-                        <img :src="timg3" alt="" class="swiper_img">
+                    <div class="swiper-slide" v-for="(item) in imgList" :key="item.id">
+                        <img :src="item.img" alt="" class="swiper_img">
                     </div>
                 </div>
                 <div class="swiper-pagination"></div><!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
@@ -40,20 +34,23 @@
                 <p class="chicken_price">
                     {{$t('info.price')}}:{{item.minprice}}-{{item.maxprice}}/只
                 </p>
-                <p class="chicken_price">
-                    {{$t('info.Number')}}:50
-                </p>
+                <p class="chicken_price">智能合約收益:{{item.cycle}}天/{{item.figure}}%</p>
                 <div class="chicken_price chicken_time">
                     <p>{{$t('info.Opentime')}}</p>
                     <p>{{item.adopt_time}}</p>
                 </div>
                 <div class="chicken_price">{{$t('info.integral')}}:{{item.adopt_integral}}</div>
-                <div class="chicken_price chicken_insert">
-                    {{$t('info.Smartcontractrevenue')}}:8天/28%
+                <!-- <div v-if="item.block_state = 0"  :class="['chicken_btn','chicken_buying','chicken_grow']">
+                    <span @click="appointment(item.id)"  >{{$t('info.Reservations')}}</span>
                 </div>
-                <div  :class="['chicken_btn',{'chicken_buying': index%2 == 0? true: false},{'chicken_grow':index%2 == 0? false: true}]">
-                    <span @click="appointment" v-if="item.status !== 1">{{$t('info.panicing')}}</span>
-                    <span @click="appointment(item.id)" v-if="item.status == 1" >{{$t('info.Reservations')}}</span>
+                <div v-if="item.block_state == 1"  :class="['chicken_btn','chicken_buying','chicken_grow']">
+                    <span   >{{$t('info.reproduction')}}</span>
+                </div> -->
+                 <div v-if="item.block_state != 3" :class="['chicken_btn','chicken_buying',]">
+                    <span  >敬请期待</span>
+                </div>
+                <div v-if="item.block_state == 3" :class="['chicken_btn','chicken_buying',]">
+                    <span @click="appointment(item.id)">{{$t('info.panicing')}}</span>
                 </div>
           </li>
       </ul>
@@ -87,7 +84,8 @@ export default {
         chickenStatu:1,
         goodList:[],
         img:[img1,img2,img3,img4,img5,img6,img7,img8],
-        nowDate:''
+        nowDate:'',
+        imgList:[]
     };
   },
   methods: {
@@ -104,6 +102,17 @@ export default {
             console.log(value,'list')
               if(value.data.code == 1){
                   this.goodList = value.data.data;
+                   console.log(this.goodList)
+                  this.goodList.forEach(v=>{
+                      this.$set(v,'startTime',v.adopt_time.split('-')[0]);
+                      this.$set(v,'endTime',v.adopt_time.split('-')[1]);
+                      if(this.nowDate >v.startTime && this.nowDate<v.endTime){
+                          this.$set(v,'appoimentStatus',false);
+                      }else{
+                          this.$set(v,'appoimentStatus',true);
+                      }
+                  })
+                  console.log(this.goodList)
               }
           })
     },
@@ -117,6 +126,34 @@ export default {
        this.globalApi.api.goods.appointment(params).then(value=>{
             console.log(value,'bulao')
               if(value.data.code == 1){
+                  this.$toast.success(value.data.msg);
+                  this.indexList();
+              }else{
+                  this.$toast.fail(value.data.msg)
+                  
+              }
+          })
+   },
+   /* 
+    获取轮播图
+   */
+  slide(id){
+       let params = {
+           id
+       }
+       this.globalApi.api.goods.slide(params).then(value=>{
+            console.log(value,'bulao')
+              if(value.data.code == 1){
+                  this.imgList = value.data.data;
+                  this.$nextTick(()=>{
+                      var mySwiper = new Swiper('.swiper-container', {
+                            autoplay: {
+                                delay: 2000,//1秒切换一次
+                                disableOnInteraction: false
+                            },
+                            loop : true,
+                        })
+                    })
                   
               }else{
                   this.$toast.fail(value.data.msg)
@@ -132,16 +169,8 @@ export default {
   },
   mounted() {
       this.indexList();
-      this.$nextTick(()=>{
-          var mySwiper = new Swiper('.swiper-container', {
-             autoplay: {
-                delay: 1000,//1秒切换一次
-                disableOnInteraction: false
-            },
-            loop : true,
-            
-        })
-      })
+      this.slide();
+      
       
   },
   components: {

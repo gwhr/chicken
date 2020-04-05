@@ -27,6 +27,7 @@ export const login = {
     'Retrievepassword':'Retrieve password',
     'newpassword':'Please enter a new password',
     'confirm':'Determine',
+    'nickname':'Please enter a nickname'
   }
   export const info = {
     'unaudited':'Unaudited',
@@ -109,5 +110,28 @@ export const login = {
     'revenue':'revenue',
     "bannkList":'My bank card',
     'selectType':'Select card type',
-    'Reservations':'Reservations'
+    'Reservations':'Reservations',
+    'addCard':'New bank card',
+    'editCard':'EDIT',
+    "Panicbuyingarea":'Panic buying area',
+    'Helpcenter':'Help center',
+    'MY':'MY',
+    'reproduction':'In reproduction',
+    'Catch':'Catch',
+    'moneyNumber':'Please enter the recharge amount',
+    'voucher':'upload recharge voucher',
+    'Verifiedbyrealname':'Verified by realname',
+    'inaudit':'In audit',
+    'catching':'Catch in',
+    "topay":'To pay',
+    'orderDetails':"Order details",
+    'orderNumber':'Order number',
+    'goldCoin':'Gold coin',
+    'selleraccount':'Seller account',
+    'seller_nickname':'Seller Name',
+    'receivingaccount':'Receiving account',
+    'revenueType':'Revenue type',
+    'createtime':'createtime',
+    'Recharge':'Recharge',
+    'teamAccount':'Account'
   }
