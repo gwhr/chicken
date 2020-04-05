@@ -42,6 +42,9 @@
                   <li class="form_li">
                       <input class="form-control" :placeholder="$t('login.nickname')" v-model="registers.nickname">
                   </li>
+                  <li class="form_li" style="color:#fff">
+                        我已閱讀並同意<span style="color:#1881d2;" @click="agreement">用戶協議</span>
+                  </li>
               </ul>
               <div class="registerBtn" @click="toConfirm">
                   {{$t('login.register')}}
@@ -56,9 +59,11 @@
 export default {
   data() {
     return {
+        radio:1,
         name:this.$t('login.register'),
         time:60,
         codeFlag:true,
+        urlIvate:'',
         registers:{
             PhoneNumber:'',
             verificationCode:'',
@@ -140,6 +145,9 @@ export default {
     // 获取验证码
     getCode(){
         this.codeFlag = false;
+        if(!this.registers.PhoneNumber){
+            this.$toast.fail('請輸入手機號')
+        }
         this.sms_reg()
         var timer = setInterval(() => {
                     this.time--;
@@ -168,14 +176,24 @@ export default {
     /* 
         獲取邀請碼
     */
-    getCode(){
+    getCodeIvate(){
         console.log(window.location.href,this.$route.params)
         let url = window.location.href.split('/');
         console.log(url.indexOf('mid'))
+        if(this.$route.params.id){
+            this.urlIvate = this.$route.params.id
+        }
+        
+    },
+    // 用戶協議
+    agreement(){
+        this.$router.push({
+            path:'/agreement'
+        })
     }
   },
   created() {
-      this.getCode();
+      this.getCodeIvate();
   },
   mounted() {
 

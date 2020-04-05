@@ -59,7 +59,8 @@ export default {
           })
      },
      newCopy(){
-         new clipboard('#copy')
+         new clipboard('#copy');
+         this.$toast.success('複製成功')
      }
   },
   created() {

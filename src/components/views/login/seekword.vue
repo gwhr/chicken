@@ -21,13 +21,16 @@
                   </li>
                   <li class="form_li">
                       <input class="form-control" type="number" :placeholder="$t('login.verificationCode')" v-model="registers.verificationCode">
-                      <span class="getCode">{{$t('login.verificationCodeGet')}}</span>
+                      <span class="getCode" @click='getCode'>{{$t('login.verificationCodeGet')}}</span>
                   </li>
                   <li class="form_li">
-                      <input class="form-control" type="password" :placeholder="$t('login.newpassword')" v-model="registers.password">
+                      <input class="form-control" type="password" :placeholder="$t('login.newpassword')" v-model="registers.pwd">
+                  </li>
+                  <li class="form_li">
+                      <input class="form-control" type="password" placeholder="再次輸入密碼" v-model="registers.repwd">
                   </li>
               </ul>
-              <div class="registerBtn" >
+              <div class="registerBtn"  @click="forgetpwd">
                   {{$t('login.confirm')}}
               </div>
 
@@ -40,6 +43,8 @@
 export default {
   data() {
     return {
+        time:60,
+        codeFlag:true,
         name:this.$t('login.Retrievepassword'),
         registers:{
             PhoneNumber:'',
@@ -53,7 +58,62 @@ export default {
     };
   },
   methods: {
+      // 获取验证码
+    getCode(){
+        this.codeFlag = false;
+        if(!this.registers.PhoneNumber){
+            this.$toast.fail('請輸入手機號')
+        }
+        this.sms_reg()
+        var timer = setInterval(() => {
+                    this.time--;
+                    if (this.time === 0) {
+                        clearInterval(timer);
+                        this.codeFlag = true;
+                    }
+                }, 1000)
+    },
+    /*
+        获取验证码 
+     */
+    sms_reg(){
+        let params = {
+            mobile:this.registers.PhoneNumber,
+            temp:'sms_forget'
+        }
+        this.globalApi.api.login.sms_reg(params).then(value=>{
+              if(value.data.code == 1){
+                  this.$toast.success(value.data.msg)
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
+    },
+    /*
+        找回密碼 
+     */
+    forgetpwd(){
+        let params = {
+            account:this.registers.PhoneNumber,
+            verifycode:this.registers.verificationCode,
+            pwd:this.registers.pwd,
+            repwd:this.registers.repwd
+        }
+        this.globalApi.api.login.forgetpwd(params).then(value=>{
+              if(value.data.code == 1){
+                  this.$toast.success(value.data.msg)
+                  this.$router.go(-1)
+              }else{
+                  this.$toast.fail(value.data.msg)
+              }
+          })
+    },
+    /* 
+        修改密碼
+    */
+   confirm(){
 
+   }
   },
   created() {
 

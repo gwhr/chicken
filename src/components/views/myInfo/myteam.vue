@@ -86,7 +86,6 @@ export default {
       });
     },
     confirm(){
-      console.log(87)
       this.givingIntegral();
     },
     onLoad() {
@@ -114,8 +113,8 @@ export default {
         mobile:this.mobile
      }
          this.globalApi.api.userinfo.givingIntegral(params).then(value=>{
-            console.log(value,'list')
                   this.$toast.success(value.data.msg)
+                  this.myTeam();
           })
      },
      tozz(item){

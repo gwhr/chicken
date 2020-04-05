@@ -168,5 +168,10 @@ export default new Router({
       name:'cardList',
       component:_import('myInfo/cardList')
     },
+    {
+      path:'/agreement',
+      name:'agreement',
+      component:_import('register/agreement')
+    },
   ]
 })

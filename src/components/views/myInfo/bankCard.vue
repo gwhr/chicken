@@ -9,6 +9,9 @@
           <div class="registerForm">
               <ul>
                   <li class="form_li">
+                      <input class="form-control"  type='number' placeholder="輸入手機號" v-model="registers.PhoneNumber" >
+                  </li>
+                  <li class="form_li">
                       <input class="form-control"  :placeholder="$t('info.selectType')" v-model="registers.selectType" readonly @click="getCardType">
                       <van-action-sheet v-model="show" :title="$t('info.selectType')">
                         <van-picker  :columns="columns" @change="onChange" />
@@ -105,6 +108,11 @@ export default {
    },
        // 获取验证码
     getCode(){
+        if(!this.registers.PhoneNumber){
+            this.$toast.fail('請輸入手機號')
+            return
+        }
+        
         this.codeFlag = false;
         this.sms_reg()
         var timer = setInterval(() => {
@@ -121,7 +129,6 @@ export default {
     sms_reg(){
         let params = {
             mobile:this.registers.PhoneNumber,
-            temp:'sms_reg'
         }
         this.globalApi.api.userinfo.sms_reg(params).then(value=>{
               if(value.data.code == 1){

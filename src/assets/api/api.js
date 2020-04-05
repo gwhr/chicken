@@ -43,6 +43,18 @@ export const login = {
             return value
         })
     },
+    // 用戶協議
+    get_user_regagree(params={}){
+        return http.request(`/port/login/get_user_regagree`, 'get',params).then(value=>{
+            return value
+        })
+    },
+    // 找回密碼
+    forgetpwd(params={}){
+        return http.request(`/port/login/forgetpwd`, 'get',params).then(value=>{
+            return value
+        })
+    },
 }
 export const userinfo = {
     getPaymentType(){

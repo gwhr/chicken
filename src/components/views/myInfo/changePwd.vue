@@ -107,7 +107,6 @@ export default {
     sms_reg(){
         let params = {
             mobile:this.userInfo.account,
-            temp:'sms_reg'
         }
         this.globalApi.api.userinfo.sms_reg(params).then(value=>{
               if(value.data.code == 1){

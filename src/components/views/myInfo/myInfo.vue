@@ -87,6 +87,7 @@ export default {
                 name:this.$t('info.titalassets'),
                 path:'/myassets',
                 dataName:'',
+                query:{},
                 value:''
             },
             // {
@@ -141,7 +142,11 @@ export default {
   methods: {
       toRecord(path){
           this.$router.push({
-              path
+              path,
+              query:{
+                  totalassets:this.userInfo.totalassets,
+                  integral:this.userInfo.integral
+              }
           })
       },
       /* 

@@ -34,12 +34,12 @@
                 <p class="chicken_price">
                     {{$t('info.price')}}:{{item.minprice}}-{{item.maxprice}}/只
                 </p>
-                <p class="chicken_price">智能合約收益:{{item.cycle}}天/{{item.figure}}%</p>
-                <div class="chicken_price chicken_time">
+                <p class="chicken_price" style='line-height:1.5;height:45px;'>智能合約收益:{{item.cycle}}天/{{item.figure}}%</p>
+                <div class="chicken_price chicken_time"  style='line-height:1.5'>
                     <p>{{$t('info.Opentime')}}</p>
                     <p>{{item.adopt_time}}</p>
                 </div>
-                <div class="chicken_price">{{$t('info.integral')}}:{{item.adopt_integral}}</div>
+                <div class="chicken_price" >{{$t('info.integral')}}:{{item.adopt_integral}}</div>
                 <!-- <div v-if="item.block_state = 0"  :class="['chicken_btn','chicken_buying','chicken_grow']">
                     <span @click="appointment(item.id)"  >{{$t('info.Reservations')}}</span>
                 </div>
@@ -47,7 +47,7 @@
                     <span   >{{$t('info.reproduction')}}</span>
                 </div> -->
                  <div v-if="item.block_state != 3" :class="['chicken_btn','chicken_buying',]">
-                    <span  >敬请期待</span>
+                    <span  >孵化中</span>
                 </div>
                 <div v-if="item.block_state == 3" :class="['chicken_btn','chicken_buying',]">
                     <span @click="appointment(item.id)">{{$t('info.panicing')}}</span>
@@ -163,9 +163,9 @@ export default {
    }
   },
   created() {
-      this.globalApi.api.getsystemTime.getsystemTime().then(value=>{
-            console.log(value,'list');
-          })
+    //   this.globalApi.api.getsystemTime.getsystemTime().then(value=>{
+    //         console.log(value,'list');
+    //       })
   },
   mounted() {
       this.indexList();

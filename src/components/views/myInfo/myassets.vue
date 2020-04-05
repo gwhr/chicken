@@ -8,13 +8,17 @@
     </BaseHeader>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <p class="assetTit">
+            <span>總金幣:{{$route.query.integral}}</span>
+            <span>總價值:{{$route.query.totalassets}}</span>
+        </p>
         <ul class="myAssetsList">
           <li v-for="(item,index) in myassetList" :key="index">
             <div class="goodsInfo">
               <img :src="item.thumb" alt />
               <div class="listInfo">
                 <p>{{item.catename}}</p>
-                <p>{{$t('info.price')}}:{{item.minprice}}~{{item.maxprice}}</p>
+                <p>當前價值:{{item.price}}</p>
                 <p>
                   <!-- {{item.catename}} -->
                 </p>
@@ -71,16 +75,22 @@ export default {
     /* 
         我的资产
       */
-    myAssets() {
+    myAssets(type = 1) {
       let params = {
           page:this.page
         }
      return this.globalApi.api.userinfo.myAssets(params).then(value => {
         console.log(value, "list");
         if (value.data.code == 1) {
-          // this.myassetList = value.data.data.assetslist.data;
+          if(type == 1){
+            this.myassetList = value.data.data.assetslist.data
+          }else{
+            this.myassetList = this.myassetList.concat(value.data.data.assetslist.data)
+          }
           this.total = value.data.data.assetslist.total;
-          this.myassetList = this.myassetList.concat(value.data.data.assetslist.data)
+          
+        }else{
+          this.$toast.fail(value.data.msg)
         }
       });
     },
@@ -135,5 +145,15 @@ export default {
   justify-content: center;
   align-items: center;
   color: #fff;
+}
+.assetTit{
+  padding-left:20px;
+  margin-top:10px;
+  color:#fff;
+  line-height:2.5;
+  display: flex;
+  span{
+    margin-right:50px;
+  }
 }
 </style>

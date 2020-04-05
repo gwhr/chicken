@@ -81,6 +81,11 @@ export default {
       this.globalApi.api.userinfo.rechargeSubmit(params).then(value => {
         if (value.data.code == 1) {
             this.$toast.success(value.data.msg)
+            this.$router.replace({
+              path:'/myInfo'
+            });
+        }else{
+            this.$toast.fail(value.data.msg)
         }
       });
     },

@@ -5,7 +5,7 @@
         :name='name'
       >
       <template v-slot:operation>
-        <span @click="editCard">编辑</span>
+        <!-- <span @click="editCard">编辑</span> -->
       </template>
       </BaseHeader>
       <!--  -->
@@ -13,9 +13,9 @@
         <li class="cardDetails" v-for="(item) in cardList" :key='item.id'>
           <p>{{item.typename}}</p>
           <p>{{item.account}}</p>
-          <div :class="['deleteCard',{'deleteCardShow':deleteShow}]">
+          <!-- <div :class="['deleteCard',{'deleteCardShow':deleteShow}]">
               <van-button type="danger">删除</van-button>
-          </div>
+          </div> -->
         </li>
       </ul>
       <div style="padding:20px">
