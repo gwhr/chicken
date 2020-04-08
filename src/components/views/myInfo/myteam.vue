@@ -61,6 +61,8 @@
 export default {
   data() {
     return {
+        page:1,
+        total:0,
         show:false,
         number:'',
         loading: false,
@@ -81,6 +83,7 @@ export default {
   methods: {
     onRefresh() {
       this.isLoading = true;
+      this.page = 1;
       this.myTeam().then(value => {
         this.isLoading = false;
       });
@@ -89,18 +92,30 @@ export default {
       this.givingIntegral();
     },
     onLoad() {
-      setTimeout(() => {
-        this.finished = true;
-      }, 1000);
+      this.myTeam(2).then(value => {
+         this.loading = false;
+        if(this.total == this.teamlist.length){
+          this.finished = true;
+        }
+      });
+      this.page++;
     },
     /* 
         我的团队
       */
-     myTeam(){
-        return this.globalApi.api.userinfo.myTeam().then(value=>{
+     myTeam(type = 1){
+       let params = {
+          page:this.page
+        }
+        return this.globalApi.api.userinfo.myTeam(params).then(value=>{
             console.log(value,'list')
               if(value.data.code == 1){
-                  this.teamlist = value.data.data.teamlist.data;
+                  if(type == 1){
+                    this.teamlist = value.data.data.teamlist.data;
+                  }else{
+                    this.teamlist = this.teamlist.concat(value.data.data.teamlist.data);
+                  }
+                  this.total = value.data.data.teamlist.total;
               }
           })
      },

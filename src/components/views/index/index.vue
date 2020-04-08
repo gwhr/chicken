@@ -46,7 +46,7 @@
                 <div v-if="item.block_state == 1"  :class="['chicken_btn','chicken_buying','chicken_grow']">
                     <span   >{{$t('info.reproduction')}}</span>
                 </div> -->
-                 <div v-if="item.block_state != 3" :class="['chicken_btn','chicken_buying',]">
+                 <div v-if="item.block_state != 3" :class="['chicken_btn','chicken_grow',]">
                     <span  >孵化中</span>
                 </div>
                 <div v-if="item.block_state == 3" :class="['chicken_btn','chicken_buying',]">
@@ -259,7 +259,7 @@ export default {
                 background:#F04544;
             }
             .chicken_grow{
-                background:#303030;
+                background:#ccc;
             }
         }
     }

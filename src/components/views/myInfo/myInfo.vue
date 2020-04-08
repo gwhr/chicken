@@ -10,7 +10,7 @@
   <div class="myinfo">
       <div class="myinfo_header">
           <div class="myinfo_avator">
-              <!-- <img :src="timg" alt=""> -->
+              <img :src="timg" alt="">
               <div class="myinfo_infos">
                   <div class="myinfo_status">
                       <span>{{userInfo.nickname}}</span>
@@ -19,13 +19,7 @@
                   <!-- <div>邀請碼:{{userInfo.parent_mid}}</div> -->
               </div>
           </div>
-          <ul class="myinfo_record" >
-              <!-- <li class="myinfo_recordlist" @click='toRecord("/appointmentrecord")'>
-                  <span>
-                      <i class='iconfont iconweibiaoti-_huabanfuben'></i>
-                  </span>
-                  <span>{{$t('info.appointment')}}</span>
-              </li> -->
+          <!-- <ul class="myinfo_record" >
               <li class="myinfo_recordlist" @click='toRecord("/panicbuying")'>
                   <span>
                       <i class='iconfont iconweibiaoti-_huabanfuben'></i>
@@ -38,16 +32,15 @@
                   </span>
                   <span>金幣記錄</span>
               </li>
-          </ul>
+          </ul> -->
       </div>
-      <ul class="myinfo_assets" style="height:80px;">
+      <ul class="myinfo_assets" style="height:120px;">
           <li  v-for = '(item,index) in  assets' :key = 'index' @click='toRecord(item.path)'>
               <div>
                   <!-- <p class="myinfo_assets_number">{{item.value}}</p> -->
                   <span>{{item.name}}</span>
               </div>
           </li>
-          <li></li>
           <li></li>
       </ul>
       <ul class="myinfo_assets">
@@ -70,13 +63,27 @@
 </template>
 
 <script>
-import timg from '@//assets/image/timg.jpg'
+import timg from '@//assets/image/logo.png'
 export default {
   data() {
     return {
         userInfo:{},
         timg,
         assets:[
+             {
+                name:this.$t('info.panicBuyingRecord'),
+                path:'/panicbuying',
+                dataName:'',
+                query:{},
+                value:''
+            },
+            {
+                name:'金币记录',
+                path:'/transfer',
+                dataName:'',
+                query:{},
+                value:''
+            },
             // {
             //     name:this.$t('info.chickenNumbers'),
             //     path:'',
@@ -125,7 +132,7 @@ export default {
                 path:'/realname'
             },
             {
-                name:this.$t('info.collectioninformation'),
+                name:'我的银行卡',
                 path:'/cardList'
             },
             {
@@ -156,12 +163,15 @@ export default {
          this.globalApi.api.userinfo.memberInfo().then(value=>{
               if(value.data.code == 1){
                   this.userInfo = value.data.data.member;
+                  this.storeSession.save('userInfo',this.userInfo)
                   this.assets.forEach(v=>{
                     if(this.userInfo[v.dataName]){
                         v.value = this.userInfo[v.dataName];
                     }
                       
                   })
+              }else{
+                  this.$toast.fail(data.data.msg)
               }
           })
      }
@@ -179,7 +189,8 @@ export default {
 <style lang="scss" scoped>
 .myinfo{
     @include layout;
-    margin-top:20px;
+    margin-top:0;
+    padding:20px;
     .myinfo_header{
         .myinfo_avator{
             display:flex;
@@ -238,6 +249,7 @@ export default {
         li{
             width:33%;
             text-align:center;
+            line-height: normal;
             .myinfo_assets_number{
                 color:#3F9CE0;
                 margin-bottom:10px;

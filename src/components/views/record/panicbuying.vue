@@ -74,25 +74,32 @@ export default {
   },
   methods: {
     onRefresh() {
+      this.page = 1;
       this.isLoading = true;
       this.record().then(value=>{
         this.isLoading = false;
       })
     },
     onLoad() {
-      setTimeout(()=>{
-        this.finished = true;
-      },1000)
+      this.record(2).then(value => {
+         this.loading = false;
+        if(this.total == this.recorsList.length){
+          this.finished = true;
+        }
+      });
+      this.page++;
     },
     change(val) {
       this.type = this.recordList[val].type;
+      this.page = 1;
       this.record();
     },
     // 获取列表
     record(type=1) {
       // 1-待付款，2-已捕到
       let params = {
-        type: this.type
+        type: this.type,
+        page:this.page
       };
       return this.globalApi.api.record.orderIndex(params).then(value => {
         if (value.data.code == 1) {
@@ -102,7 +109,7 @@ export default {
           }else{
               this.recorsList = this.recorsList.concat(value.data.data.orderlist.data)
           }
-            
+          this.total = value.data.data.recorsList.total;
         } else {
           this.$toast.fail(value.data.msg);
         }

@@ -21,6 +21,8 @@ import timg from '@//assets/image/timg.jpg'
 export default {
   data() {
     return {
+        page:1,
+        total:0,
         loading: false,
         finished: false,
         isLoading: false,
@@ -33,30 +35,37 @@ export default {
   methods: {
     onRefresh() {
       this.isLoading = true;
+      this.page = 1;
       this.incomeLog().then(value=>{
         this.isLoading = false;
       })
     },
     onLoad() {
-      setTimeout(()=>{
-        this.finished = true;
-      },1000)
+      this.incomeLog(2).then(value => {
+         this.loading = false;
+        if(this.total == this.list.length){
+          this.finished = true;
+        }
+      });
+      this.page++;
     },
     /* 
         收益记录
       */
      incomeLog(type = 1){
        let params = {
-         type:1
+         type:1,
+         page:this.page
        }
-       return  this.globalApi.api.userinfo.incomeLog().then(value=>{
+       return  this.globalApi.api.userinfo.incomeLog(params).then(value=>{
             console.log(value.data.data.loglist,'list')
               if(value.data.code == 1){
                   if(type == 1){
-                  this.list = value.data.data.loglist.data;
-              }else{
-                  this.list = this.list.concat(value.data.data.loglist.data)
-              }
+                      this.list = value.data.data.loglist.data;
+                  }else{
+                      this.list = this.list.concat(value.data.data.loglist.data)
+                  }
+                  this.total = value.data.data.loglist.total;
               }
           })
      }

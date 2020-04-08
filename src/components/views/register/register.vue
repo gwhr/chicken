@@ -134,6 +134,7 @@ export default {
         }
         this.globalApi.api.login.register(params).then(value=>{
               if(value.data.code == 1){
+                  this.$toast.success(value.data.msg)
                   this.$router.push({
                         path:'/login'
                     })
@@ -167,7 +168,7 @@ export default {
         }
         this.globalApi.api.login.sms_reg(params).then(value=>{
               if(value.data.code == 1){
-
+                  this.$toast.success(value.data.msg)
               }else{
                   this.$toast.fail(value.data.msg)
               }
